@@ -4,5 +4,10 @@ namespace FractalPainting.Application;
 
 public class AppSettings : IImageSettingsProvider
 {
-    public ImageSettings ImageSettings { get; init; } = null!;
+    public ImageSettings ImageSettings { get; init; }
+
+    public AppSettings(ImageSettings imageSettings)
+    {
+        ImageSettings = imageSettings;
+    }
 }

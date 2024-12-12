@@ -27,10 +27,7 @@ public class SettingsManager(IObjectSerializer serializer, IBlobStorage storage)
 
     private static AppSettings CreateDefaultSettings()
     {
-        return new AppSettings
-        {
-            ImageSettings = new ImageSettings()
-        };
+        return new AppSettings(new ImageSettings());
     }
 
     private void Save(AppSettings settings)
