@@ -2,7 +2,8 @@
 
 namespace TagsCloudContainer.ConsoleUi.Handlers.Interfaces;
 
-public interface IHandler
+public interface IHandler<in TOptions>
+    where TOptions : IOptions
 {
-    public bool TryExecute(IOptions options, out string result);
+    public string Execute(TOptions options);
 }

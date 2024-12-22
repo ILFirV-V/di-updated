@@ -1,6 +1,5 @@
 ﻿using TagsCloudContainer.ConsoleUi.Handlers.Interfaces;
 using TagsCloudContainer.ConsoleUi.Options;
-using TagsCloudContainer.ConsoleUi.Options.Interfaces;
 using TagsCloudContainer.TagsCloudVisualization.Logic.Visualizers.Interfaces;
 using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
 using TagsCloudContainer.TextAnalyzer.Logic.Preprocessors.Interfaces;
@@ -9,39 +8,28 @@ using TagsCloudContainer.TextAnalyzer.Providers.Interfaces;
 
 namespace TagsCloudContainer.ConsoleUi.Handlers;
 
-public class VisualizationHandler(
+public class GenerationHandler(
     IFileTextReader fileReader,
     ITextPreprocessor textPreprocessor,
     IWordsCloudVisualizer wordsCloudVisualizer,
+    IFileSettingsProvider fileSettingsProvider,
     IImageSettingsProvider imageSettingsProvider,
-    IWordSettingsProvider wordSettingsProvider)
-    : IHandlerT<VisualizationOptions>
+    IWordSettingsProvider wordSettingsProvider) : IHandler<GenerationOptions>
 {
-    public bool TryExecute(IOptions options, out string result)
+    public string Execute(GenerationOptions options)
     {
-        if (options is VisualizationOptions visualizationOptions)
-        {
-            result = Execute(visualizationOptions);
-            return true;
-        }
-
-        result = string.Empty;
-        return false;
+        GenerateFile();
+        return "Сгенерирован файл";
     }
 
-    public string Execute(VisualizationOptions options)
+    private void GenerateFile()
     {
-        GenerateFile(options);
-        return "Генерация файла";
-    }
-
-    private void GenerateFile(VisualizationOptions options)
-    {
+        var pathSettings = fileSettingsProvider.GetPathSettings();
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var wordSettings = wordSettingsProvider.GetWordSettings();
-        var text = fileReader.ReadText(options.InputPath);
+        var text = fileReader.ReadText(pathSettings.InputPath);
         var analyzeWords = textPreprocessor.GetWordFrequencies(text, wordSettings);
         using var image = wordsCloudVisualizer.CreateImage(imageSettings, analyzeWords);
-        wordsCloudVisualizer.SaveImage(image, imageSettings, options.OutputPath);
+        wordsCloudVisualizer.SaveImage(image, pathSettings);
     }
 }
