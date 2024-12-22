@@ -37,12 +37,12 @@ internal sealed class TextPreprocessor(
     {
         processedWord = string.Empty;
         var wordDetails = wordAnalyzer.AnalyzeWordOrNull(word);
-        if (wordDetails is null || !wordFilter.IsVerify(wordDetails!, settings))
+        if (wordDetails is null || !wordFilter.IsVerify(wordDetails, settings))
         {
             return false;
         }
 
-        var formatedWordDetails = wordFormatter.Format(wordDetails!);
+        var formatedWordDetails = wordFormatter.Format(wordDetails);
         processedWord = formatedWordDetails.FormatedWord;
         return true;
     }

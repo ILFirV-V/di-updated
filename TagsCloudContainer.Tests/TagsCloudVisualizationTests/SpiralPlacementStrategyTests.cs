@@ -15,15 +15,15 @@ public class SpiralPlacementStrategyTests
         new TestCaseData(new Size(1, 0))
             .SetName("WidthZero"),
         new TestCaseData(new Size(0, 1))
-            .SetName("HeightZero"),
+            .SetName("HeightZero")
     ];
 
     private static readonly IReadOnlyCollection<TestCaseData> validRectangleSizeCases =
     [
-        new TestCaseData(new List<Size>() { new(10, 10) })
+        new TestCaseData(new List<Size> { new(10, 10) })
             .SetName("OneSize"),
-        new TestCaseData(new List<Size>() { new(10, 10), new(20, 20), new(15, 15), new(5, 7), new(3, 1), new(15, 35) })
-            .SetName("MoreSizes"),
+        new TestCaseData(new List<Size> { new(10, 10), new(20, 20), new(15, 15), new(5, 7), new(3, 1), new(15, 35) })
+            .SetName("MoreSizes")
     ];
 
     private SpiralPlacementStrategy strategy;

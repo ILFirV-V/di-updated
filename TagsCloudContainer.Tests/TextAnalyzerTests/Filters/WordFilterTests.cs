@@ -11,7 +11,6 @@ public class WordFilterTests
     private static readonly WordSettings DefaultSettings = new();
     private static readonly string startWordFake = string.Empty;
     private static readonly string formatedWordFake = string.Empty;
-
     private static IReadOnlyCollection<TestCaseData> validTestCases =
     [
         new TestCaseData("V", DefaultSettings)
@@ -25,7 +24,7 @@ public class WordFilterTests
         new TestCaseData("NUM", DefaultSettings)
             .SetName("Numeral"),
         new TestCaseData("N", new WordSettings {ValidSpeechParts = ["N"]})
-            .SetName("CustomSettings"),
+            .SetName("CustomSettings")
     ];
 
     private static IEnumerable<TestCaseData> notValidTestCases =
@@ -37,7 +36,7 @@ public class WordFilterTests
         new TestCaseData(" ", DefaultSettings)
             .SetName("WhitespaceSpeechPart"),
         new TestCaseData("V", new WordSettings {ValidSpeechParts = ["S"]})
-            .SetName("WithoutSpeechPart"),
+            .SetName("WithoutSpeechPart")
     ];
 
     [Test]

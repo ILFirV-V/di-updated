@@ -25,7 +25,7 @@ public class WordReaderTests
         new TestCaseData("test\nword\nanother", new[] {"test", "word", "another"})
             .SetName("MultiWordWithNewLines"),
         new TestCaseData("test\r\nword\r\nanother", new[] {"test", "word", "another"})
-            .SetName("MultiWordWithNewLinesWithSpaces"),
+            .SetName("MultiWordWithNewLinesWithSpaces")
     ];
 
     [Test]

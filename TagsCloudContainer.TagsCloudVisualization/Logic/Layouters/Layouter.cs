@@ -7,7 +7,7 @@ namespace TagsCloudContainer.TagsCloudVisualization.Logic.Layouters;
 
 internal sealed class Layouter : ILayouter
 {
-    private IList<Rectangle> Rectangles { get; } = new List<Rectangle>();
+    private List<Rectangle> Rectangles { get; } = [];
     private readonly IRectanglePlacementStrategy placementStrategy;
     private Point Center { get; }
 
@@ -47,14 +47,14 @@ internal sealed class Layouter : ILayouter
     {
         var compressionRectangle = rectangle;
         compressionRectangle = Compression(compressionRectangle,
-            (moveRectangle) => moveRectangle.X > Center.X,
-            (moveRectangle) => moveRectangle.X + rectangle.Width < Center.X,
-            (moveRectangle, direction) => moveRectangle with {X = moveRectangle.X + direction});
+            moveRectangle => moveRectangle.X > Center.X,
+            moveRectangle => moveRectangle.X + rectangle.Width < Center.X,
+            (moveRectangle, direction) => moveRectangle with { X = moveRectangle.X + direction });
 
         compressionRectangle = Compression(compressionRectangle,
-            (moveRectangle) => moveRectangle.Y > Center.Y,
-            (moveRectangle) => moveRectangle.Y + moveRectangle.Height < Center.Y,
-            (moveRectangle, direction) => moveRectangle with {Y = moveRectangle.Y + direction});
+            moveRectangle => moveRectangle.Y > Center.Y,
+            moveRectangle => moveRectangle.Y + moveRectangle.Height < Center.Y,
+            (moveRectangle, direction) => moveRectangle with { Y = moveRectangle.Y + direction });
 
         return compressionRectangle;
     }

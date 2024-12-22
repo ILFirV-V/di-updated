@@ -7,5 +7,5 @@ namespace TagsCloudContainer.ConsoleUi.Options;
 public class WordSettingsOptions : IOptions
 {
     [Option('v', "valid", HelpText = "Валидные части речи")]
-    public ICollection<string> ValidSpeechParts { get; set; }
+    public ICollection<string> ValidSpeechParts { get; set; } = new List<string>();
 }

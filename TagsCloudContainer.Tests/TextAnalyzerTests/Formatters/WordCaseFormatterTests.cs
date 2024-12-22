@@ -10,7 +10,6 @@ public class WordCaseFormatterTests
 {
     private static readonly string startWordFake = string.Empty;
     private static readonly string wordSpeechPartFake = string.Empty;
-
     private static IReadOnlyCollection<TestCaseData> validTestCases =
     [
         new TestCaseData(string.Empty, string.Empty)
@@ -24,7 +23,7 @@ public class WordCaseFormatterTests
         new TestCaseData("123Test", "123test")
             .SetName("NumbersAndLetters"),
         new TestCaseData("Тест", "тест")
-            .SetName("CyrillicLetters"),
+            .SetName("CyrillicLetters")
     ];
 
     [Test]

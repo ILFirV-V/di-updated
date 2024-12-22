@@ -17,7 +17,7 @@ public partial class WordAnalyzerTests
         new TestCaseData("быстро", new WordDetails("быстро", "быстро", "ADV"))
             .SetName("Adverb"),
         new TestCaseData("три", new WordDetails("три", "три", "NUM"))
-            .SetName("Numeral"),
+            .SetName("Numeral")
     ];
 
     private static IReadOnlyCollection<TestCaseData> notValidWordsTestCases =
@@ -29,6 +29,6 @@ public partial class WordAnalyzerTests
         new TestCaseData("#$%^")
             .SetName("WordWithSymbols"),
         new TestCaseData("несуществующееслово123")
-            .SetName("NonExistingWord"),
+            .SetName("NonExistingWord")
     ];
 }

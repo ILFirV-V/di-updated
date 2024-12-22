@@ -18,7 +18,7 @@ public partial class WeigherWordSizerTests
     }
 
     [Test]
-    [TestCaseSource(nameof(emtyResultCases))]
+    [TestCaseSource(nameof(emptyResultCases))]
     public void CalculateWordSizes_Should_ReturnsEmptyCollection(
         IReadOnlyDictionary<string, int> wordFrequencies)
     {

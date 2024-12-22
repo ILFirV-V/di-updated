@@ -4,7 +4,7 @@ namespace TagsCloudContainer.TagsCloudVisualization.Models.Settings;
 
 public record ImageSettings
 {
-    private Size size = new Size(1500, 1500);
+    private Size size = new(1500, 1500);
 
     public Size Size
     {

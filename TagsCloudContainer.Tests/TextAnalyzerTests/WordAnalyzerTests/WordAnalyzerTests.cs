@@ -14,9 +14,16 @@ public partial class WordAnalyzerTests
     [SetUp]
     public void SetUp()
     {
+        var resourceDirectory = Path.Combine(AppContext.BaseDirectory, "Resources");
+        var myStemPath = Path.Combine(resourceDirectory, "mystem.exe");
+        if (!File.Exists(myStemPath))
+        {
+            throw new FileNotFoundException($"Файл MyStem не найден по пути: {myStemPath}");
+        }
+        
         myStem = new MyStem
         {
-            PathToMyStem = "D:\\education\\contur\\di\\mystem.exe",
+            PathToMyStem = myStemPath,
             Parameters = "-nli"
         };
     }

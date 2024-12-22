@@ -2,5 +2,5 @@
 
 public static class WordPreprocessorConstants
 {
-    public static readonly string TextSeparator = "\n";
+    public const string TextSeparator = "\n";
 }

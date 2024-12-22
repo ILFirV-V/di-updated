@@ -31,15 +31,15 @@ public class WordsCloudVisualizer(ILayoutCreator containerCreator, IWeigherWordS
         return image;
     }
 
-    private Image CreateImageMap(ImageSettings imageSettings)
+    private Bitmap CreateImageMap(ImageSettings imageSettings)
     {
         var bitmap = new Bitmap(imageSettings.Size.Width, imageSettings.Size.Height);
-        using var g = Graphics.FromImage(bitmap);
-        g.Clear(imageSettings.BackgroundColor);
+        using var graphics = Graphics.FromImage(bitmap);
+        graphics.Clear(imageSettings.BackgroundColor);
         return bitmap;
     }
 
-    private Image VisualizeWords(Image bitmap, IReadOnlyCollection<ViewWord> viewWords, ImageSettings imageSettings)
+    private Bitmap VisualizeWords(Bitmap bitmap, IReadOnlyCollection<ViewWord> viewWords, ImageSettings imageSettings)
     {
         var container = containerCreator.GetOrNull() ?? throw new ArgumentNullException(nameof(containerCreator));
         using var graphics = Graphics.FromImage(bitmap);
@@ -65,8 +65,10 @@ public class WordsCloudVisualizer(ILayoutCreator containerCreator, IWeigherWordS
     private void DrawTextInRectangle(Graphics graphics, ViewWord viewWord, Rectangle rectangle,
         ImageSettings imageSettings)
     {
-        using var sf = new StringFormat {Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center};
+        using var stringFormat = new StringFormat();
+        stringFormat.Alignment = StringAlignment.Center;
+        stringFormat.LineAlignment = StringAlignment.Center;
         using var brush = new SolidBrush(imageSettings.WordColor);
-        graphics.DrawString(viewWord.Word, viewWord.Font, brush, rectangle, sf);
+        graphics.DrawString(viewWord.Word, viewWord.Font, brush, rectangle, stringFormat);
     }
 }
