@@ -1,10 +1,9 @@
-﻿using FakeItEasy;
-using FluentAssertions;
+﻿using FluentAssertions;
 using TagsCloudContainer.TagsCloudVisualization.Logic.SizeCalculators;
-using TagsCloudContainer.TagsCloudVisualization.Models.Settings;
+using TagsCloudContainer.TagsCloudVisualization.Providers;
 using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
 
-namespace TagsCloudContainer.Tests.TagsCloudVisualization;
+namespace TagsCloudContainer.Tests.TagsCloudVisualizationTests;
 
 [TestFixture]
 [TestOf(typeof(WeigherWordSizer))]
@@ -15,55 +14,56 @@ public partial class WeigherWordSizerTests
     [SetUp]
     public void SetUp()
     {
-        var imageSettings = new ImageSettings();
-        imageSettingsProvider = A.Fake<IImageSettingsProvider>();
-        A.CallTo(() => imageSettingsProvider.GetImageSettings()).Returns(imageSettings);
+        imageSettingsProvider = new ImageSettingsProvider();
     }
 
     [Test]
     [TestCaseSource(nameof(emtyResultCases))]
-    public void CalculateWordSizes_HandlesEmptyDictionary_ReturnsEmptyCollection(
+    public void CalculateWordSizes_Should_ReturnsEmptyCollection(
         IReadOnlyDictionary<string, int> wordFrequencies)
     {
         var calculator = new WeigherWordSizer(imageSettingsProvider);
+
         var result = calculator.CalculateWordSizes(wordFrequencies);
+
         result.Should().BeEmpty();
     }
 
     [Test]
     [TestCaseSource(nameof(validWordCountsCases))]
-    public void CalculateWordSizes_CalculatesCorrectSizes_ForMultipleWords(
+    public void WeigherWordSizer_Should_CompareWordCountToWordFont(
         IReadOnlyDictionary<string, int> wordFrequencies)
     {
         var calculator = new WeigherWordSizer(imageSettingsProvider);
         var expectedWordOrder = wordFrequencies.OrderByDescending(x => x.Value).Select(x => x.Key);
 
         var result = calculator.CalculateWordSizes(wordFrequencies);
-        var resultWordOrder = result.OrderByDescending(w => w.Font.Size).Select(w => w.Word);
 
+        var resultWordOrder = result.OrderByDescending(w => w.Font.Size).Select(w => w.Word);
         resultWordOrder.Should().BeEquivalentTo(expectedWordOrder);
     }
 
     [Test]
     [TestCaseSource(nameof(customMinMaxSizeCases))]
-    public void CalculateWordSizes_UsesCustomMinMaxSizes(IReadOnlyDictionary<string, int> wordFrequencies, int minSize,
-        int maxSize)
+    public void CalculateWordSizes_Should_UsesCustomMinMaxSizes(IReadOnlyDictionary<string, int> wordFrequencies,
+        int minSize, int maxSize)
     {
         var calculator = new WeigherWordSizer(imageSettingsProvider);
+
         var result = calculator.CalculateWordSizes(wordFrequencies, minSize, maxSize);
-        _ = result.Select(x => x.Font.Size.Should().BeInRange(minSize, maxSize));
+
+        result.Should().AllSatisfy(x => x.Font.Size.Should().BeInRange(minSize, maxSize));
     }
 
     [Test]
     [TestCaseSource(nameof(customMinMaxSizeCases))]
-    public void CalculateWordSizes_AssignsMaxSize(IReadOnlyDictionary<string, int> wordFrequencies, int minSize,
+    public void CalculateWordSizes_Should_ContainsMaxSize(IReadOnlyDictionary<string, int> wordFrequencies, int minSize,
         int maxSize)
     {
         var calculator = new WeigherWordSizer(imageSettingsProvider);
 
         var result = calculator.CalculateWordSizes(wordFrequencies, minSize, maxSize);
-        var maxWordSize = (int) result.Max(w => w.Font.Size);
 
-        maxWordSize.Should().Be(maxSize);
+        result.Max(w => w.Font.Size).Should().Be(maxSize);
     }
 }
