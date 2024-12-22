@@ -1,5 +1,4 @@
-﻿using System.Drawing.Imaging;
-using TagsCloudContainer.ConsoleUi.Handlers.Interfaces;
+﻿using TagsCloudContainer.ConsoleUi.Handlers.Interfaces;
 using TagsCloudContainer.ConsoleUi.Options;
 using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
 
@@ -17,18 +16,20 @@ public class FileSettingsHandler(IFileSettingsProvider settingsProvider)
     private void SetFileSettings(FileSettingsOptions settingsOptions)
     {
         var currentSettings = settingsProvider.GetPathSettings();
-        if (settingsOptions.ImageFormat is not default(ImageFormat) &&
+        if (!string.IsNullOrEmpty(settingsOptions.ImageFormatString) &&
             !Equals(settingsOptions.ImageFormat, currentSettings.ImageFormat))
         {
             settingsProvider.SetImageFormat(settingsOptions.ImageFormat);
         }
 
-        if (!string.IsNullOrEmpty(settingsOptions.InputPath) && !Equals(settingsOptions.InputPath, currentSettings.InputPath))
+        if (!string.IsNullOrEmpty(settingsOptions.InputPath)
+            && !Equals(settingsOptions.InputPath, currentSettings.InputPath))
         {
             settingsProvider.SetInputPath(settingsOptions.InputPath);
         }
 
-        if (!string.IsNullOrEmpty(settingsOptions.OutputPath) && !Equals(settingsOptions.OutputPath, currentSettings.OutputPath))
+        if (!string.IsNullOrEmpty(settingsOptions.OutputPath)
+            && !Equals(settingsOptions.OutputPath, currentSettings.OutputPath))
         {
             settingsProvider.SetOutputPath(settingsOptions.OutputPath);
         }

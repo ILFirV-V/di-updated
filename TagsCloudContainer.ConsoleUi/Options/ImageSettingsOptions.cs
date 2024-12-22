@@ -20,5 +20,5 @@ public class ImageSettingsOptions : IOptions
     public Color WordColor { get; set; }
 
     [Option('f', "font", HelpText = "Шрифт")]
-    public FontFamily FontFamily { get; set; }
+    public FontFamily? FontFamily { get; set; }
 }
