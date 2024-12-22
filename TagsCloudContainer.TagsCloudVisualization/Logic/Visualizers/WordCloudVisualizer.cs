@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using TagsCloudContainer.TagsCloudVisualization.Extensions;
 using TagsCloudContainer.TagsCloudVisualization.Logic.Layouters.Interfaces;
 using TagsCloudContainer.TagsCloudVisualization.Logic.SizeCalculators.Interfaces;
 using TagsCloudContainer.TagsCloudVisualization.Logic.Visualizers.Interfaces;
@@ -7,12 +8,19 @@ using TagsCloudContainer.TagsCloudVisualization.Models.Settings;
 
 namespace TagsCloudContainer.TagsCloudVisualization.Logic.Visualizers;
 
-public class WordsCloudVisualizer(ICircularCloudLayouter container, IWeigherWordSizer weigherWordSizer)
+public class WordsCloudVisualizer(ILayoutCreator containerCreator, IWeigherWordSizer weigherWordSizer)
     : IWordsCloudVisualizer
 {
-    public void SaveImage(Image image, ImageSettings settings, string outputFilePath)
+    public void SaveImage(Image image, FileSettings settings)
     {
-        image.Save(outputFilePath, settings.ImageFormat);
+        if (!Directory.Exists(settings.OutputPath))
+        {
+            throw new DirectoryNotFoundException($"Output directory doesn't exist: {settings.OutputPath}");
+        }
+
+        var fileNameWithFormat = $"{settings.OutputFileName}{settings.ImageFormat.FileExtensionFromToString()}";
+        var path = Path.Combine(settings.OutputPath, fileNameWithFormat);
+        image.Save(path, settings.ImageFormat);
     }
 
     public Image CreateImage(ImageSettings settings, IReadOnlyDictionary<string, int> wordCounts)
@@ -23,7 +31,7 @@ public class WordsCloudVisualizer(ICircularCloudLayouter container, IWeigherWord
         return image;
     }
 
-    private Bitmap CreateImageMap(ImageSettings imageSettings)
+    private Image CreateImageMap(ImageSettings imageSettings)
     {
         var bitmap = new Bitmap(imageSettings.Size.Width, imageSettings.Size.Height);
         using var g = Graphics.FromImage(bitmap);
@@ -33,6 +41,7 @@ public class WordsCloudVisualizer(ICircularCloudLayouter container, IWeigherWord
 
     private Image VisualizeWords(Image bitmap, IReadOnlyCollection<ViewWord> viewWords, ImageSettings imageSettings)
     {
+        var container = containerCreator.GetOrNull() ?? throw new ArgumentNullException(nameof(containerCreator));
         using var graphics = Graphics.FromImage(bitmap);
         foreach (var viewWord in viewWords)
         {

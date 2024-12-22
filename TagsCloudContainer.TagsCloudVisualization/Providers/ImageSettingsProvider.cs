@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Drawing.Imaging;
 using TagsCloudContainer.TagsCloudVisualization.Models.Settings;
 using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
 
@@ -13,17 +12,14 @@ public class ImageSettingsProvider : IImageSettingsProvider
         imageSettings;
 
     public void SetSize(Size size) =>
-        imageSettings = imageSettings with {Size = size};
-
-    public void SetImageFormat(ImageFormat imageFormat) =>
-        imageSettings = imageSettings with {ImageFormat = imageFormat};
+        imageSettings = imageSettings with { Size = size };
 
     public void SetBackgroundColor(Color backgroundColor) =>
-        imageSettings = imageSettings with {BackgroundColor = backgroundColor};
+        imageSettings = imageSettings with { BackgroundColor = backgroundColor };
 
     public void SetWordColor(Color wordColor) =>
-        imageSettings = imageSettings with {WordColor = wordColor};
+        imageSettings = imageSettings with { WordColor = wordColor };
 
     public void SetFontFamily(FontFamily fontFamily) =>
-        imageSettings = imageSettings with {FontFamily = fontFamily};
+        imageSettings = imageSettings with { FontFamily = fontFamily };
 }

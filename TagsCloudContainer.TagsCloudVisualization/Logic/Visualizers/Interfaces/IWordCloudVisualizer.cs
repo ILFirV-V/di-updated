@@ -7,5 +7,5 @@ public interface IWordsCloudVisualizer
 {
     public Image CreateImage(ImageSettings settings, IReadOnlyDictionary<string, int> wordCounts);
 
-    public void SaveImage(Image image, ImageSettings settings, string outputFilePath);
+    public void SaveImage(Image image, FileSettings settings);
 }

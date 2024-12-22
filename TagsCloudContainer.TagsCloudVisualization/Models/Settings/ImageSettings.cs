@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace TagsCloudContainer.TagsCloudVisualization.Models.Settings;
 
 public record ImageSettings
 {
-    private Size size = new Size(500, 500);
+    private Size size = new Size(1500, 1500);
 
     public Size Size
     {
@@ -21,7 +20,6 @@ public record ImageSettings
         }
     }
 
-    public ImageFormat ImageFormat { get; init; } = ImageFormat.Png;
     public Color BackgroundColor { get; init; } = Color.White;
     public Color WordColor { get; init; } = Color.Black;
     public FontFamily FontFamily { get; init; } = new("Consolas");

@@ -20,7 +20,7 @@ public static class ConfigureServicesExtensions
         services.AddTransient<IRectanglePlacementStrategy, SpiralPlacementStrategy>();
         services.AddScoped<IWordsCloudVisualizer, WordsCloudVisualizer>();
         services.AddScoped<IWeigherWordSizer, WeigherWordSizer>();
-        services.AddSingleton<IPathSettingsProvider, PathSettingsProvider>();
+        services.AddSingleton<IFileSettingsProvider, FileSettingsProvider>();
         services.AddSingleton<IImageSettingsProvider, ImageSettingsProvider>();
         services.AddSingleton<ILayoutCreator, LayoutCreator>();
         return services;
