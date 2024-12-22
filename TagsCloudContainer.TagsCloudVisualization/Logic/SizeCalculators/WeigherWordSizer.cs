@@ -11,7 +11,7 @@ internal class WeigherWordSizer(IImageSettingsProvider imageSettingsProvider) : 
     public IReadOnlyCollection<ViewWord> CalculateWordSizes(IReadOnlyDictionary<string, int> wordFrequencies,
         int minSize = 8, int maxSize = 24)
     {
-        if (wordFrequencies is null || wordFrequencies.Count == 0)
+        if (wordFrequencies.Count == 0)
         {
             return ImmutableArray<ViewWord>.Empty;
         }
