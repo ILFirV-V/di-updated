@@ -2,7 +2,7 @@
 
 namespace TagsCloudContainer.TagsCloudVisualization.Logic.Layouters.Interfaces;
 
-public interface ICircularCloudLayouter
+public interface ILayouter
 {
     public Rectangle PutNextRectangle(Size rectangleSize);
 }
