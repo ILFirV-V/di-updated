@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Drawing.Imaging;
 using CommandLine;
 using TagsCloudContainer.ConsoleUi.Options.Interfaces;
 
@@ -13,9 +12,6 @@ public class ImageSettingsOptions : IOptions
 
     [Option('h', "height", HelpText = "Высота")]
     public int Height { get; set; }
-
-    [Option('e', "extension", HelpText = "формат файла")]
-    public ImageFormat ImageFormat { get; set; }
 
     [Option('b', "background", HelpText = "Цвет фона")]
     public Color BackgroundColor { get; set; }
