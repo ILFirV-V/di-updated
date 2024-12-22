@@ -1,39 +1,39 @@
 ﻿using System.Drawing;
-using FakeItEasy;
 using FluentAssertions;
 using TagsCloudContainer.TagsCloudVisualization.Extensions;
 using TagsCloudContainer.TagsCloudVisualization.Logic.Layouters;
-using TagsCloudContainer.TagsCloudVisualization.Models.Settings;
+using TagsCloudContainer.TagsCloudVisualization.Logic.Strategies;
+using TagsCloudContainer.TagsCloudVisualization.Logic.Strategies.Interfaces;
+using TagsCloudContainer.TagsCloudVisualization.Providers;
 using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
 
-namespace TagsCloudContainer.Tests.TagsCloudVisualization;
+namespace TagsCloudContainer.Tests.TagsCloudVisualizationTests;
 
 [TestFixture]
-[TestOf(typeof(CircularCloudLayouter))]
-public partial class CircularCloudLayouterTests
+[TestOf(typeof(Layouter))]
+public partial class LayouterTests
 {
     private IImageSettingsProvider imageSettingsProvider;
+    private IRectanglePlacementStrategy rectanglePlacementStrategy;
 
     [SetUp]
     public void SetUp()
     {
-        var imageSettings = new ImageSettings();
-        imageSettingsProvider = A.Fake<IImageSettingsProvider>();
-        A.CallTo(() => imageSettingsProvider.GetImageSettings())
-            .Returns(imageSettings);
+        imageSettingsProvider = new ImageSettingsProvider();
+        rectanglePlacementStrategy = new SpiralPlacementStrategy();
     }
 
     [Test]
     [TestCaseSource(nameof(zeroSizeCases))]
     public void PutNextRectangle_Should_ThrowsArgumentException(Size rectangleSize)
     {
-        var circularCloudLayouter = new CircularCloudLayouter(imageSettingsProvider);
+        var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
 
         var action = () => circularCloudLayouter.PutNextRectangle(rectangleSize);
 
         action.Should()
             .Throw<ArgumentException>()
-            .WithMessage("Размер ширины м высоты должен быть больше 0.");
+            .WithMessage("Размер ширины и высоты должен быть больше 0.");
     }
 
     [Test]
@@ -43,7 +43,7 @@ public partial class CircularCloudLayouterTests
     {
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var center = imageSettings.Size.Center();
-        var circularCloudLayouter = new CircularCloudLayouter(imageSettingsProvider);
+        var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
 
         var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size)).ToList();
 
@@ -55,7 +55,7 @@ public partial class CircularCloudLayouterTests
     [TestCaseSource(nameof(validRectangleSizeCases))]
     public void PutNextRectangle_Should_ReturnsRectanglesWithCorrectSize(IList<Size> sizes)
     {
-        var circularCloudLayouter = new CircularCloudLayouter(imageSettingsProvider);
+        var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
 
         var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size)).ToList();
 
@@ -67,7 +67,7 @@ public partial class CircularCloudLayouterTests
     [TestCaseSource(nameof(validRectangleSizeCases))]
     public void PutNextRectangle_Should_ReturnsNonIntersectingRectangles(IList<Size> sizes)
     {
-        var circularCloudLayouter = new CircularCloudLayouter(imageSettingsProvider);
+        var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
         var intersectingRectangles = new List<Rectangle>();
 
         var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size)).ToList();
@@ -86,7 +86,7 @@ public partial class CircularCloudLayouterTests
     {
         var imageSettings = imageSettingsProvider.GetImageSettings();
         var center = imageSettings.Size.Center();
-        var circularCloudLayouter = new CircularCloudLayouter(imageSettingsProvider);
+        var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
 
         var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size)).ToList();
 
