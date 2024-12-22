@@ -1,4 +1,4 @@
-﻿using System.Collections.Frozen;
+﻿using System.Collections.Immutable;
 using TagsCloudContainer.TextAnalyzer.Constants;
 using TagsCloudContainer.TextAnalyzer.Logic.Readers.Interfaces;
 
@@ -13,6 +13,6 @@ internal sealed class WordReader : IWordReader
             .Select(line => line.Trim())
             .Where(word => !string.IsNullOrWhiteSpace(word));
 
-        return words.ToFrozenSet();
+        return words.ToImmutableArray();
     }
 }
