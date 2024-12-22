@@ -14,7 +14,8 @@ public class GenerationHandler(
     IWordsCloudVisualizer wordsCloudVisualizer,
     IFileSettingsProvider fileSettingsProvider,
     IImageSettingsProvider imageSettingsProvider,
-    IWordSettingsProvider wordSettingsProvider) : IHandler<GenerationOptions>
+    IWordSettingsProvider wordSettingsProvider) 
+    : IHandler<GenerationOptions>
 {
     public string Execute(GenerationOptions options)
     {

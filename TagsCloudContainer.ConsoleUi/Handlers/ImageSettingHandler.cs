@@ -32,13 +32,13 @@ public class ImageSettingHandler(IImageSettingsProvider imageSettingsProvider) :
 
         if (options.Height != default && !options.Height.Equals(currentSettings.Size.Height))
         {
-            var newSize = currentSettings.Size with {Height = options.Height};
+            var newSize = currentSettings.Size with { Height = options.Height };
             imageSettingsProvider.SetSize(newSize);
         }
 
         if (options.Width != default && !options.Width.Equals(currentSettings.Size.Width))
         {
-            var newSize = currentSettings.Size with {Width = options.Width};
+            var newSize = currentSettings.Size with { Width = options.Width };
             imageSettingsProvider.SetSize(newSize);
         }
     }
