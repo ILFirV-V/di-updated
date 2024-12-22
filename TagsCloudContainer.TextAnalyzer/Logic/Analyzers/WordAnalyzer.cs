@@ -6,12 +6,6 @@ namespace TagsCloudContainer.TextAnalyzer.Logic.Analyzers;
 
 internal sealed class WordAnalyzer(MyStem myStem) : IWordAnalyzer<WordDetails>
 {
-    public bool TryAnalyzeWord(string word, out WordDetails? details)
-    {
-        details = AnalyzeWordOrNull(word);
-        return details is not null;
-    }
-
     public WordDetails? AnalyzeWordOrNull(string word)
     {
         var analyzedWordInfo = myStem.Analysis(word);

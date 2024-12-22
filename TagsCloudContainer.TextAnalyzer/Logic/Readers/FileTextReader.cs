@@ -15,7 +15,7 @@ internal sealed class FileTextReader : IFileTextReader
         return ReadText(fileStream);
     }
 
-    public string ReadText(Stream stream)
+    private string ReadText(Stream stream)
     {
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();
