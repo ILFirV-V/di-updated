@@ -88,7 +88,7 @@ public partial class LayouterTests
         var center = imageSettings.Size.Center();
         var circularCloudLayouter = new Layouter(imageSettingsProvider, rectanglePlacementStrategy);
 
-        var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size)).ToList();
+        var rectangles = sizes.Select(size => circularCloudLayouter.PutNextRectangle(size));
 
         rectangles.First().Center().Should().BeEquivalentTo(center);
     }
