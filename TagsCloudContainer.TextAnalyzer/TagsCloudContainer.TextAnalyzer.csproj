@@ -16,9 +16,6 @@
         </AssemblyAttribute>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Logic\" />
-    </ItemGroup>
-    <ItemGroup>
       <None Update="Resources\mystem.exe">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
