@@ -32,7 +32,7 @@ public class WordCaseFormatterTests
         string expectedFormatedWord)
     {
         var wordDetails = new WordDetails(startWordFake, startFormatedWord, wordSpeechPartFake);
-        var expectedWordDetails = wordDetails with {FormatedWord = expectedFormatedWord};
+        var expectedWordDetails = wordDetails with { FormatedWord = expectedFormatedWord };
         var formatter = new WordCaseFormatter();
 
         var result = formatter.Format(wordDetails);

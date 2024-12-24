@@ -23,7 +23,7 @@ public class WordFilterTests
             .SetName("Adverb"),
         new TestCaseData("NUM", DefaultSettings)
             .SetName("Numeral"),
-        new TestCaseData("N", new WordSettings {ValidSpeechParts = ["N"]})
+        new TestCaseData("N", new WordSettings { ValidSpeechParts = ["N"] })
             .SetName("CustomSettings")
     ];
 
@@ -35,7 +35,7 @@ public class WordFilterTests
             .SetName("NullSpeechPart"),
         new TestCaseData(" ", DefaultSettings)
             .SetName("WhitespaceSpeechPart"),
-        new TestCaseData("V", new WordSettings {ValidSpeechParts = ["S"]})
+        new TestCaseData("V", new WordSettings { ValidSpeechParts = ["S"] })
             .SetName("WithoutSpeechPart")
     ];
 

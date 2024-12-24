@@ -14,17 +14,17 @@ public class WordReaderTests
             .SetName("EmptyText"),
         new TestCaseData("   ", ImmutableArray<string>.Empty)
             .SetName("WhitespaceText"),
-        new TestCaseData("test", new[] {"test"})
+        new TestCaseData("test", new[] { "test" })
             .SetName("SingleWord"),
-        new TestCaseData("test word another", new[] {"test word another"})
+        new TestCaseData("test word another", new[] { "test word another" })
             .SetName("MultiWord"),
-        new TestCaseData(" test  word   another ", new[] {"test  word   another"})
+        new TestCaseData(" test  word   another ", new[] { "test  word   another" })
             .SetName("MultiWordWithSpaces"),
-        new TestCaseData("test;word,another", new[] {"test;word,another"})
+        new TestCaseData("test;word,another", new[] { "test;word,another" })
             .SetName("MultiWordWithSpacesWithSpaces"),
-        new TestCaseData("test\nword\nanother", new[] {"test", "word", "another"})
+        new TestCaseData("test\nword\nanother", new[] { "test", "word", "another" })
             .SetName("MultiWordWithNewLines"),
-        new TestCaseData("test\r\nword\r\nanother", new[] {"test", "word", "another"})
+        new TestCaseData("test\r\nword\r\nanother", new[] { "test", "word", "another" })
             .SetName("MultiWordWithNewLinesWithSpaces")
     ];
 
