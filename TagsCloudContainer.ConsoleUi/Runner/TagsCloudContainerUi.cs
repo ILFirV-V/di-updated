@@ -1,38 +1,34 @@
-﻿using CommandLine;
-using TagsCloudContainer.ConsoleUi.Handlers.Interfaces;
-using TagsCloudContainer.ConsoleUi.Options;
-using TagsCloudContainer.ConsoleUi.Options.Interfaces;
-using TagsCloudContainer.ConsoleUi.Runner.Interfaces;
+﻿using TagsCloudContainer.ConsoleUi.Runner.Interfaces;
+using TagsCloudContainer.TagsCloudVisualization.Logic.Visualizers.Interfaces;
+using TagsCloudContainer.TagsCloudVisualization.Providers.Interfaces;
+using TagsCloudContainer.TextAnalyzer.Logic.Preprocessors.Interfaces;
+using TagsCloudContainer.TextAnalyzer.Logic.Readers.Interfaces;
+using TagsCloudContainer.TextAnalyzer.Providers.Interfaces;
 
 namespace TagsCloudContainer.ConsoleUi.Runner;
 
 public class TagsCloudContainerUi(
-    IEnumerable<IOptions> options,
-    IHandler<ExitOptions> exitHandler,
-    IHandler<FileSettingsOptions> fileSettingsHandler,
-    IHandler<GenerationOptions> generationHandler,
-    IHandler<ImageSettingsOptions> imageSettingHandler,
-    IHandler<WordSettingsOptions> wordSettingsHandler)
+    IFileTextReader fileReader,
+    ITextPreprocessor textPreprocessor,
+    IWordsCloudVisualizer wordsCloudVisualizer,
+    IFileSettingsProvider fileSettingsProvider,
+    IImageSettingsProvider imageSettingsProvider,
+    IWordSettingsProvider wordSettingsProvider)
     : ITagsCloudContainerUi
 {
     public void Run()
     {
-        var types = options.Select(x => x.GetType()).ToArray();
-        Console.WriteLine("Посмотреть доступные команды \"--help\"");
-        while (true)
-        {
-            var input = Console.ReadLine();
-            var args = input?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+        GenerateFile();
+    }
 
-            var resultMessage = Parser.Default.ParseArguments(args, types)
-                .MapResult(
-                    (ExitOptions opts) => exitHandler.Execute(opts),
-                    (FileSettingsOptions opts) => fileSettingsHandler.Execute(opts),
-                    (GenerationOptions opts) => generationHandler.Execute(opts),
-                    (ImageSettingsOptions opts) => imageSettingHandler.Execute(opts),
-                    (WordSettingsOptions opts) => wordSettingsHandler.Execute(opts),
-                    _ => "Не найдена такая команда для настройки или генерации изображения");
-            Console.WriteLine(resultMessage);
-        }
+    private void GenerateFile()
+    {
+        var pathSettings = fileSettingsProvider.GetPathSettings();
+        var imageSettings = imageSettingsProvider.GetImageSettings();
+        var wordSettings = wordSettingsProvider.GetWordSettings();
+        var text = fileReader.ReadText(pathSettings.InputPath);
+        var analyzeWords = textPreprocessor.GetWordFrequencies(text, wordSettings);
+        using var image = wordsCloudVisualizer.CreateImage(imageSettings, analyzeWords);
+        wordsCloudVisualizer.SaveImage(image, pathSettings);
     }
 }

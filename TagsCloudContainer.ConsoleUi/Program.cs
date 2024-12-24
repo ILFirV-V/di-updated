@@ -1,20 +1,16 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using TagsCloudContainer.ConsoleUi;
 using TagsCloudContainer.ConsoleUi.Runner.Interfaces;
-using TagsCloudContainer.TagsCloudVisualization.Extensions;
-using TagsCloudContainer.TextAnalyzer.Extensions;
-
-var services = new ServiceCollection();
-services.AddTextAnalyzerServices();
-services.AddTagsCloudVisualization();
+using TagsCloudContainer.ConsoleUi.Tuners;
+using TagsCloudContainer.ConsoleUi.Tuners.Interfaces;
 
 var builder = new ContainerBuilder();
-builder.Populate(services);
+builder.RegisterType<Tuner>().As<ITuner>();
 builder.RegisterModule(new ConsoleClientModule());
 
 var app = builder.Build();
 using var scope = app.BeginLifetimeScope();
 var appRunner = scope.Resolve<ITagsCloudContainerUi>();
+var appTuner = scope.Resolve<ITuner>();
+appTuner.Tune(args);
 appRunner.Run();

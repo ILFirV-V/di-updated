@@ -10,9 +10,12 @@ public class ImageSettingsProvider : IImageSettingsProvider
 
     public ImageSettings GetImageSettings() =>
         imageSettings;
+    
+    public void SetHeight(int height) =>
+        imageSettings = imageSettings with { Size = imageSettings.Size with{ Height = height } };
 
-    public void SetSize(Size size) =>
-        imageSettings = imageSettings with { Size = size };
+    public void SetWidth(int width) =>
+        imageSettings = imageSettings with { Size = imageSettings.Size with{ Width = width } };
 
     public void SetBackgroundColor(Color backgroundColor) =>
         imageSettings = imageSettings with { BackgroundColor = backgroundColor };
