@@ -32,7 +32,7 @@ public static class ConfigureServicesExtensions
             PathToMyStem = myStemPath,
             Parameters = "-nli"
         });
-        services.AddTransient<IFileTextReader, FileTextReader>();
+        services.AddSingleton<IFileTextReader, FileTextReader>();
         services.AddScoped<IWordAnalyzer<WordDetails>, WordAnalyzer>();
         services.AddSingleton<IWordFormatter<WordDetails>, WordCaseFormatter>();
         services.AddSingleton<IWordFilter<WordDetails>, WordFilter>();
